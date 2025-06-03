@@ -47,4 +47,4 @@ public class TemperatureSensorHandle implements SensorEventHandler {
                 sensorEventAvro));
     }
 }
-}
+
