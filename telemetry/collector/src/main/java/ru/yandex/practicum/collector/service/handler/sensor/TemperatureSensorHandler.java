@@ -13,7 +13,7 @@ import ru.yandex.practicum.kafka.telemetry.event.TemperatureSensorAvro;
 
 @Component
 @RequiredArgsConstructor
-public class TemperatureSensorHandle implements SensorEventHandler {
+public class TemperatureSensorHandler implements SensorEventHandler {
 
     private final KafkaClient kafkaClient;
     private final KafkaTopicsConfig kafkaTopicsConfig;
