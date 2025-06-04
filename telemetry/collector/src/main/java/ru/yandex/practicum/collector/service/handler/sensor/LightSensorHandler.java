@@ -2,21 +2,18 @@ package ru.yandex.practicum.collector.service.handler.sensor;
 
 import ru.yandex.practicum.collector.configuration.KafkaClient;
 import ru.yandex.practicum.collector.configuration.KafkaTopicsConfig;
-import lombok.RequiredArgsConstructor;
 import ru.yandex.practicum.collector.model.sensor.LightSensor;
 import ru.yandex.practicum.collector.model.sensor.SensorEvent;
 import ru.yandex.practicum.collector.model.sensor.SensorEventType;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.kafka.telemetry.event.LightSensorAvro;
-import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 
 @Component
-@RequiredArgsConstructor
-public class LightSensorHandler implements SensorEventHandler {
+public class LightSensorHandler extends BaseSensorEventHandler<LightSensorAvro> {
 
-    private final KafkaClient kafkaClient;
-    private final KafkaTopicsConfig kafkaTopicsConfig;
+    public LightSensorHandler(KafkaClient kafkaClient, KafkaTopicsConfig kafkaTopicsConfig) {
+        super(kafkaClient, kafkaTopicsConfig);
+    }
 
     @Override
     public SensorEventType getMessageType() {
@@ -24,24 +21,12 @@ public class LightSensorHandler implements SensorEventHandler {
     }
 
     @Override
-    public void handle(SensorEvent event) {
+    protected LightSensorAvro mapToAvro(SensorEvent event) {
         LightSensor lightSensor = (LightSensor) event;
-        LightSensorAvro payload = LightSensorAvro.newBuilder()
+        return LightSensorAvro.newBuilder()
                 .setLinkQuality(lightSensor.getLinkQuality())
                 .setLuminosity(lightSensor.getLuminosity())
                 .build();
-        SensorEventAvro sensorEventAvro = SensorEventAvro.newBuilder()
-                .setId(lightSensor.getId())
-                .setHubId(lightSensor.getHubId())
-                .setTimestamp(lightSensor.getTimestamp())
-                .setPayload(payload)
-                .build();
-        kafkaClient.getProducer().send(new ProducerRecord<>(
-                kafkaTopicsConfig.getSensors(),
-                null,
-                event.getTimestamp().toEpochMilli(),
-                event.getHubId(),
-                sensorEventAvro));
     }
 }
 

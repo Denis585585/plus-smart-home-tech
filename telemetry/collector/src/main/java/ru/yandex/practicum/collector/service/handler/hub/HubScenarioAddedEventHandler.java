@@ -2,22 +2,20 @@ package ru.yandex.practicum.collector.service.handler.hub;
 
 import ru.yandex.practicum.collector.configuration.KafkaClient;
 import ru.yandex.practicum.collector.configuration.KafkaTopicsConfig;
-import lombok.RequiredArgsConstructor;
 import ru.yandex.practicum.collector.model.hub.HubEvent;
 import ru.yandex.practicum.collector.model.hub.HubEventType;
 import ru.yandex.practicum.collector.model.hub.ScenarioAddedEvent;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.kafka.telemetry.event.*;
 
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
-public class HubScenarioAddedEventHandler implements HubEventHandler {
+public class HubScenarioAddedEventHandler extends BaseHubEventHandler<ScenarioAddedEventAvro> {
 
-    private final KafkaClient kafkaClient;
-    private final KafkaTopicsConfig kafkaTopicsConfig;
+    public HubScenarioAddedEventHandler(KafkaClient kafkaClient, KafkaTopicsConfig kafkaTopicsConfig) {
+        super(kafkaClient, kafkaTopicsConfig);
+    }
 
     @Override
     public HubEventType getMessageType() {
@@ -25,7 +23,7 @@ public class HubScenarioAddedEventHandler implements HubEventHandler {
     }
 
     @Override
-    public void handle(HubEvent event) {
+    public ScenarioAddedEventAvro mapToAvro(HubEvent event) {
         ScenarioAddedEvent scenarioAddedEvent = (ScenarioAddedEvent) event;
         List<DeviceActionAvro> actionAvros = scenarioAddedEvent.getActions().stream()
                 .map(deviceAction -> DeviceActionAvro.newBuilder()
@@ -42,23 +40,10 @@ public class HubScenarioAddedEventHandler implements HubEventHandler {
                         .setValue(scenarioCondition.getValue())
                         .build())
                 .toList();
-
-
-        ScenarioAddedEventAvro payload = ScenarioAddedEventAvro.newBuilder()
+        return ScenarioAddedEventAvro.newBuilder()
                 .setName(scenarioAddedEvent.getName())
                 .setConditions(conditionAvros)
                 .setActions(actionAvros)
                 .build();
-        HubEventAvro hubEventAvro = HubEventAvro.newBuilder()
-                .setHubId(scenarioAddedEvent.getHubId())
-                .setPayload(payload)
-                .setTimestamp(scenarioAddedEvent.getTimestamp())
-                .build();
-        kafkaClient.getProducer().send(new ProducerRecord<>(
-                kafkaTopicsConfig.getHubs(),
-                null,
-                event.getTimestamp().toEpochMilli(),
-                event.getHubId(),
-                hubEventAvro));
     }
 }

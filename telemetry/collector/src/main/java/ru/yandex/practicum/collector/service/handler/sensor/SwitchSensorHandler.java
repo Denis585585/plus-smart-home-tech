@@ -2,21 +2,18 @@ package ru.yandex.practicum.collector.service.handler.sensor;
 
 import ru.yandex.practicum.collector.configuration.KafkaClient;
 import ru.yandex.practicum.collector.configuration.KafkaTopicsConfig;
-import lombok.RequiredArgsConstructor;
 import ru.yandex.practicum.collector.model.sensor.SensorEvent;
 import ru.yandex.practicum.collector.model.sensor.SensorEventType;
 import ru.yandex.practicum.collector.model.sensor.SwitchSensor;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 import ru.yandex.practicum.kafka.telemetry.event.SwitchSensorAvro;
 
 @Component
-@RequiredArgsConstructor
-public class SwitchSensorHandler implements SensorEventHandler {
+public class SwitchSensorHandler extends BaseSensorEventHandler<SwitchSensorAvro> {
 
-    private final KafkaClient kafkaClient;
-    private final KafkaTopicsConfig kafkaTopicsConfig;
+    public SwitchSensorHandler(KafkaClient kafkaClient, KafkaTopicsConfig kafkaTopicsConfig) {
+        super(kafkaClient, kafkaTopicsConfig);
+    }
 
     @Override
     public SensorEventType getMessageType() {
@@ -24,22 +21,10 @@ public class SwitchSensorHandler implements SensorEventHandler {
     }
 
     @Override
-    public void handle(SensorEvent event) {
+    protected SwitchSensorAvro mapToAvro (SensorEvent event) {
         SwitchSensor switchSensor = (SwitchSensor) event;
-        SwitchSensorAvro payload = SwitchSensorAvro.newBuilder()
+        return SwitchSensorAvro.newBuilder()
                 .setState(switchSensor.getState())
                 .build();
-        SensorEventAvro sensorEventAvro = SensorEventAvro.newBuilder()
-                .setId(switchSensor.getId())
-                .setHubId(switchSensor.getHubId())
-                .setTimestamp(switchSensor.getTimestamp())
-                .setPayload(payload)
-                .build();
-        kafkaClient.getProducer().send(new ProducerRecord<>(
-                kafkaTopicsConfig.getSensors(),
-                null,
-                event.getTimestamp().toEpochMilli(),
-                event.getHubId(),
-                sensorEventAvro));
     }
 }
