@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class HubScenarioAddedEvent implements HubEventHandler {
+public class HubScenarioAddedEventHandler implements HubEventHandler {
 
     private final KafkaClient kafkaClient;
     private final KafkaTopicsConfig kafkaTopicsConfig;
