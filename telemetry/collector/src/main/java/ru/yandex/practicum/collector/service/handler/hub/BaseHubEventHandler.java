@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import ru.yandex.practicum.collector.configuration.KafkaClient;
-import ru.yandex.practicum.collector.configuration.KafkaTopicsConfig;
+import ru.yandex.practicum.configuration.kafka.KafkaClient;
+import ru.yandex.practicum.configuration.kafka.KafkaTopicsConfig;
 import ru.yandex.practicum.grpc.telemetry.event.HubEventProto;
 import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
+
 
 import java.time.Instant;
 

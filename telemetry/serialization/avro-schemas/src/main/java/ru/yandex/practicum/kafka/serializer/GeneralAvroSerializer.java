@@ -1,4 +1,4 @@
-package ru.yandex.practicum.kafka;
+package ru.yandex.practicum.kafka.serializer;
 
 import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.DatumWriter;
@@ -6,6 +6,7 @@ import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.common.serialization.Serializer;
+import ru.yandex.practicum.kafka.exception.KafkaSerializationException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
