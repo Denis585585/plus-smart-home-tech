@@ -30,19 +30,18 @@ public class AggregationStarter {
     private final KafkaClient kafkaClient;
     private final KafkaTopicsConfig kafkaTopicsConfig;
     private final AggregationServiceImpl aggregationService;
-    private Consumer<String, SpecificRecordBase> consumer;
+    private Consumer<String, SensorEventAvro> consumer;
 
     public void start() {
-        consumer = kafkaClient.getConsumer();
+        consumer = kafkaClient.getSensorEventConsumer();
 
         try {
             consumer.subscribe(List.of(kafkaTopicsConfig.getSensors()));
             while (true) {
-                log.debug("Polling new kafka records");
-                ConsumerRecords<String, SpecificRecordBase> records = consumer.poll(CONSUME_ATTEMPT_TIMEOUT);
+                ConsumerRecords<String, SensorEventAvro> records = consumer.poll(CONSUME_ATTEMPT_TIMEOUT);
                 int count = 0;
-                for (ConsumerRecord<String, SpecificRecordBase> record : records) {
-                    aggregationService.handleSensorEvent((SensorEventAvro) record.value());
+                for (ConsumerRecord<String, SensorEventAvro> record : records) {
+                    aggregationService.handleSensorEvent(record.value());
                     manageOffsets(record, count);
                     count++;
                 }
@@ -56,12 +55,12 @@ public class AggregationStarter {
             try {
                 consumer.commitSync(currentOffsets);
             } finally {
-                kafkaClient.stop();
+                kafkaClient.stopSensorEventConsumer();
             }
         }
     }
 
-    private void manageOffsets(ConsumerRecord<String, SpecificRecordBase> record, int count) {
+    private void manageOffsets(ConsumerRecord<String, SensorEventAvro> record, int count) {
         currentOffsets.put(
                 new TopicPartition(record.topic(), record.partition()),
                 new OffsetAndMetadata(record.offset() + 1)
