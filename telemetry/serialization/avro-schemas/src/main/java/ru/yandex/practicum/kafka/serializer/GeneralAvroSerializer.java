@@ -16,7 +16,7 @@ public class GeneralAvroSerializer implements Serializer<SpecificRecordBase> {
     private BinaryEncoder encoder;
 
     @Override
-    public byte[] serialize(final String topic, SpecificRecordBase datum) {
+    public byte[] serialize(final String topic, final SpecificRecordBase datum) {
         if (datum == null) {
             return null;
         }
@@ -31,4 +31,3 @@ public class GeneralAvroSerializer implements Serializer<SpecificRecordBase> {
         }
     }
 }
-

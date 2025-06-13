@@ -25,13 +25,18 @@ public class AggregationServiceImpl implements AggregationService {
 
     public void handleSensorEvent(SensorEventAvro event) {
         log.info("Handling event with id {}", event.getId());
-        updateState(event).ifPresent(snapshot -> kafkaClient.getProducer().send(new ProducerRecord<>(
-                kafkaTopics.getSnapshots(),
-                null,
-                event.getTimestamp().toEpochMilli(),
-                event.getHubId(),
-                snapshot
-        )));
+
+        updateState(event).ifPresent(snapshot ->
+        {
+            log.info("Sending snapshot");
+            kafkaClient.getProducer().send(new ProducerRecord<>(
+                    kafkaTopics.getSnapshots(),
+                    null,
+                    event.getTimestamp().toEpochMilli(),
+                    event.getHubId(),
+                    snapshot
+            ));
+        });
     }
 
     public Optional<SensorsSnapshotAvro> updateState(SensorEventAvro event) {
