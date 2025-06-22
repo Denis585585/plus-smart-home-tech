@@ -1,6 +1,0 @@
-kafka:
-  consumer:
-    client-id: aggregator
-  topics:
-    sensors: telemetry.sensors.v1
-    snapshots: telemetry.snapshots.v1
