@@ -80,7 +80,6 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                    <mainClass>ru.yandex.practicum.discoveryserver.DiscoveryServer</mainClass>
                 </configuration>
             </plugin>
             <plugin>
