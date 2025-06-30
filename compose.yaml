@@ -34,18 +34,48 @@ services:
                              --bootstrap-server kafka:29092'"
     init: true
 
-    postgres:
-      image: postgres:16.1
-      container_name: postgres
-      ports:
-        - "5432:5432"
-      environment:
-        - POSTGRES_DB=telemetry_analyzer
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=password
-      healthcheck:
-        test: [ "CMD-SHELL", "pg_isready -q -d $POSTGRES_DB -U $POSTGRES_USER" ]
-        timeout: 5s
-        interval: 5s
-        retries: 10
-      restart: unless-stopped
+  postgres:
+    image: postgres:16.1
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=telemetry_analyzer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -q -d $POSTGRES_DB -U $POSTGRES_USER" ]
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
+  store-db:
+    image: postgres:16.1
+    container_name: store-db
+    ports:
+      - "6432:5432"
+    environment:
+      - POSTGRES_PASSWORD=store
+      - POSTGRES_USER=store
+      - POSTGRES_DB=store-db
+
+  cart-db:
+    image: postgres:16.1
+    container_name: cart-db
+    ports:
+      - "7432:5432"
+    environment:
+      - POSTGRES_PASSWORD=cart
+      - POSTGRES_USER=cart
+      - POSTGRES_DB=cart-db
+
+  warehouse-db:
+    image: postgres:16.1
+    container_name: warehouse-db
+    ports:
+      - "8432:5432"
+    environment:
+      - POSTGRES_PASSWORD=warehouse
+      - POSTGRES_USER=warehouse
+      - POSTGRES_DB=warehouse-db
