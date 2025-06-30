@@ -10,7 +10,7 @@ spring:
     openfeign:
       circuitbreaker:
         enabled: true
-        "alphanumeric-ids":
+        alphanumeric-ids:
           enabled: true
 
   sql:
