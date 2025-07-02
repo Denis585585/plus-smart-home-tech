@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class DimensionDto {
     @Min(1)
-    Double width;
+    private Double width;
     @Min(1)
-    Double height;
+    private Double height;
     @Min(1)
-    Double depth;
+    private Double depth;
 }
