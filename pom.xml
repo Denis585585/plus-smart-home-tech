@@ -120,15 +120,6 @@
                     <artifactId>protobuf-maven-plugin</artifactId>
                     <version>${protobuf-plugin.version}</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>3.3.2</version>
-                    <configuration>
-                        <mainClass>ru.yandex.practicum.discoveryserver.DiscoveryServer
-                        </mainClass>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
