@@ -9,7 +9,7 @@ import ru.yandex.practicum.iteractionapi.request.ChangeProductQuantityRequest;
 import java.util.Map;
 import java.util.UUID;
 
-/*
+
 @FeignClient(name = "shopping-cart", path = "/api/v1/shopping-cart", configuration = FeignConfig.class)
 public interface ShoppingCartClient {
     @GetMapping
@@ -27,4 +27,4 @@ public interface ShoppingCartClient {
     @PostMapping("/change-quantity")
     ShoppingCartDto updateProductQuantity(@RequestParam String username,
                                           @RequestBody @Valid ChangeProductQuantityRequest requestDto);
-}*/
+}
