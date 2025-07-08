@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.iteractionapi.client.WarehouseClient;
 import ru.yandex.practicum.iteractionapi.dto.BookedProductsDto;
 import ru.yandex.practicum.iteractionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.iteractionapi.request.ChangeProductQuantityRequest;
@@ -19,7 +18,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
-    private final WarehouseClient warehouseClient;
 
 
     @GetMapping
