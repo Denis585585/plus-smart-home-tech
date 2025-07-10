@@ -1,7 +1,6 @@
-/*
+
 package ru.yandex.practicum.interactionapi.circuitbreaker;
 
-import org.springframework.stereotype.Component;
 import ru.yandex.practicum.interactionapi.client.WarehouseClient;
 import ru.yandex.practicum.interactionapi.dto.AddressDto;
 import ru.yandex.practicum.interactionapi.dto.BookedProductsDto;
@@ -10,7 +9,7 @@ import ru.yandex.practicum.interactionapi.exception.WarehouseServerUnavailableEx
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
 
-@Component
+
 public class WarehouseClientFallback implements WarehouseClient {
 
     @Override
@@ -37,4 +36,4 @@ public class WarehouseClientFallback implements WarehouseClient {
     public BookedProductsDto bookingCartProducts(ShoppingCartDto shoppingCartDto) {
         throw new WarehouseServerUnavailableException("Fallback response: сервис временно недоступен.");
     }
-}*/
+}
