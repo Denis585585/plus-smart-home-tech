@@ -1,3 +1,4 @@
+/*
 package ru.yandex.practicum.interactionapi.circuitbreaker;
 
 import org.springframework.stereotype.Component;
@@ -36,4 +37,4 @@ public class WarehouseClientFallback implements WarehouseClient {
     public BookedProductsDto bookingCartProducts(ShoppingCartDto shoppingCartDto) {
         throw new WarehouseServerUnavailableException("Fallback response: сервис временно недоступен.");
     }
-}
+}*/
