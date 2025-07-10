@@ -1,3 +1,4 @@
+/*
 
 package ru.yandex.practicum.interactionapi.circuitbreaker;
 
@@ -38,3 +39,4 @@ public class WarehouseClientFallback implements WarehouseClient {
         throw new WarehouseServerUnavailableException("Fallback response: сервис временно недоступен.");
     }
 }
+*/
