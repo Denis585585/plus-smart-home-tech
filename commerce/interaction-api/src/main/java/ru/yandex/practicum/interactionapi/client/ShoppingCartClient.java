@@ -2,6 +2,7 @@ package ru.yandex.practicum.interactionapi.client;
 
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.interactionapi.request.ChangeProductQuantityRequest;
@@ -9,7 +10,7 @@ import ru.yandex.practicum.interactionapi.request.ChangeProductQuantityRequest;
 import java.util.Map;
 import java.util.UUID;
 
-
+@Component
 @FeignClient(name = "shopping-cart", path = "/api/v1/shopping-cart", configuration = FeignConfig.class)
 public interface ShoppingCartClient {
     @GetMapping
