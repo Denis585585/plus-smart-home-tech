@@ -1,34 +1,36 @@
-package ru.yandex.practicum.shoppingstore.model;
+package ru.yandex.practicum.interactionapi.dto;
 
-import jakarta.persistence.*;
-import lombok.Getter;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import ru.yandex.practicum.interactionapi.enums.ProductCategory;
 import ru.yandex.practicum.interactionapi.enums.ProductState;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
-@Table(name = "products")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+@AllArgsConstructor
+public class ProductDto {
     private UUID productId;
+    @NotBlank
     private String productName;
+    @NotBlank
     private String description;
     private String imageSrc;
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private QuantityState quantityState;
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private ProductState productState;
-    @Enumerated(EnumType.STRING)
+    @Min(1)
+    @Max(5)
+    private Integer rating;
     private ProductCategory productCategory;
-    private BigDecimal price;
-    private int rating;
+    @NotNull
+    private Double price;
 }

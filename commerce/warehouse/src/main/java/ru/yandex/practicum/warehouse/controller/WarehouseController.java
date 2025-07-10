@@ -4,11 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.iteractionapi.dto.AddressDto;
-import ru.yandex.practicum.iteractionapi.dto.BookedProductsDto;
-import ru.yandex.practicum.iteractionapi.dto.ShoppingCartDto;
-import ru.yandex.practicum.iteractionapi.request.AddProductToWarehouseRequest;
-import ru.yandex.practicum.iteractionapi.request.NewProductInWarehouseRequest;
+import ru.yandex.practicum.interactionapi.dto.AddressDto;
+import ru.yandex.practicum.interactionapi.dto.BookedProductsDto;
+import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
+import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
+import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
 import ru.yandex.practicum.warehouse.service.WarehouseService;
 
 @Slf4j

@@ -2,7 +2,7 @@ package ru.yandex.practicum.shoppingstore.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
-import ru.yandex.practicum.iteractionapi.dto.ProductDto;
+import ru.yandex.practicum.interactionapi.dto.ProductDto;
 import ru.yandex.practicum.shoppingstore.model.Product;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package ru.yandex.practicum.shoppingstore.service;
 
-import ru.yandex.practicum.iteractionapi.dto.PageableDto;
-import ru.yandex.practicum.iteractionapi.dto.ProductDto;
-import ru.yandex.practicum.iteractionapi.enums.ProductCategory;
-import ru.yandex.practicum.iteractionapi.request.SetProductQuantityStateRequest;
+import ru.yandex.practicum.interactionapi.dto.PageableDto;
+import ru.yandex.practicum.interactionapi.dto.ProductDto;
+import ru.yandex.practicum.interactionapi.enums.ProductCategory;
+import ru.yandex.practicum.interactionapi.request.SetProductQuantityStateRequest;
 
 import java.util.List;
 import java.util.UUID;

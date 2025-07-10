@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.iteractionapi.dto.PageableDto;
-import ru.yandex.practicum.iteractionapi.dto.ProductDto;
-import ru.yandex.practicum.iteractionapi.enums.ProductCategory;
-import ru.yandex.practicum.iteractionapi.request.SetProductQuantityStateRequest;
+import ru.yandex.practicum.interactionapi.dto.PageableDto;
+import ru.yandex.practicum.interactionapi.dto.ProductDto;
+import ru.yandex.practicum.interactionapi.enums.ProductCategory;
+import ru.yandex.practicum.interactionapi.request.SetProductQuantityStateRequest;
 import ru.yandex.practicum.shoppingstore.service.ShoppingStoreService;
 
 import java.util.List;
