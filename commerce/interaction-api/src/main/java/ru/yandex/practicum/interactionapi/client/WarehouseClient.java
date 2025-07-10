@@ -2,6 +2,7 @@ package ru.yandex.practicum.interactionapi.client;
 
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,6 +14,7 @@ import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
 
+@Service
 @FeignClient(name = "warehouse", path = "/api/v1/warehouse", fallback = WarehouseClientFallback.class, configuration = FeignConfig.class)
 public interface WarehouseClient {
     @PutMapping
