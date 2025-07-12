@@ -3,12 +3,10 @@ package ru.yandex.practicum.shoppingstore.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import ru.yandex.practicum.interactionapi.dto.PageableDto;
+import ru.yandex.practicum.interactionapi.dto.Pageable;
 import ru.yandex.practicum.interactionapi.dto.ProductDto;
 import ru.yandex.practicum.interactionapi.enums.ProductCategory;
 import ru.yandex.practicum.interactionapi.enums.ProductState;
@@ -25,7 +23,6 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ShoppingStoreServiceImpl implements ShoppingStoreService {
     private final ShoppingStoreRepository shoppingStoreRepository;
     private final ProductMapper productMapper;
@@ -42,19 +39,19 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
         return productMapper.productToProductDto(product);
     }
 
-    @Transactional(readOnly = true)
-    public List<ProductDto> findProductsByCategory(ProductCategory productCategory, PageableDto pageableDto) {
+    @Override
+    public List<ProductDto> findProductsByCategory(ProductCategory category, Pageable pageable) {
         log.info("Запрос списка товаров.");
 
-        Pageable pageRequest = PageRequest.of(
-                pageableDto.getPage(),
-                pageableDto.getSize(),
-                Sort.by(Sort.DEFAULT_DIRECTION, String.join(",", pageableDto.getSort()))
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPage(),
+                pageable.getSize(),
+                Sort.by(Sort.DEFAULT_DIRECTION, String.join(",", pageable.getSort()))
         );
 
-        List<Product> products = shoppingStoreRepository.findAllByProductCategory(productCategory, pageRequest);
+        List<Product> products = shoppingStoreRepository.findAllByProductCategory(category, pageRequest);
         if (CollectionUtils.isEmpty(products)) {
-            log.warn("Товары не найдены для категории: {}", productCategory);
+            log.warn("Товары не найдены для категории: {}", category);
             return Collections.emptyList();
         }
 
