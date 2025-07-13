@@ -12,6 +12,7 @@ import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
+import ru.yandex.practicum.interactionapi.request.SetProductQuantityStateRequest;
 import ru.yandex.practicum.warehouse.exception.NoSpecifiedProductInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductInShoppingCartLowQuantityInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductNotFoundInWarehouseException;
@@ -147,7 +148,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         UUID productId = warehouseProduct.getProductId();
         QuantityState quantityState;
         Long quantity = warehouseProduct.getQuantity();
-
+        SetProductQuantityStateRequest setProductQuantityStateRequest = new SetProductQuantityStateRequest();
         if (quantity == 0) {
             quantityState = QuantityState.ENDED;
         } else if (quantity < 10) {
@@ -157,6 +158,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         } else {
             quantityState = QuantityState.MANY;
         }
-        shoppingStoreClient.setProductQuantityState(productId, quantityState);
+        setProductQuantityStateRequest.setProductId(productId);
+        setProductQuantityStateRequest.setQuantityState(quantityState);
+        shoppingStoreClient.setProductQuantityState(setProductQuantityStateRequest);
     }
 }
