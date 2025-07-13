@@ -1,7 +1,9 @@
 package ru.yandex.practicum.shoppingcart.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 import java.util.UUID;
@@ -11,8 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

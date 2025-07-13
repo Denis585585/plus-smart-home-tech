@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pageable {
+public class PageableDto {
     @Min(0)
     private Integer page;
     @Min(1)
