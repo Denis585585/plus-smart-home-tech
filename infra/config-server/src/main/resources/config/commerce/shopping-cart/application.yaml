@@ -25,9 +25,12 @@ spring:
     username: cart
     password: cart
 
-resilience4j:
-  circuitbreaker:
-    instances:
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 50
+      failureRateThreshold: 50
+  instances:
       warehouse:
         slidingWindowSize: 10
         failureRateThreshold: 50

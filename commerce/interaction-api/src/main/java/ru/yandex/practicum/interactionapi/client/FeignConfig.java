@@ -1,16 +1,17 @@
 package ru.yandex.practicum.interactionapi.client;
 
+import feign.Feign;
 import feign.Retryer;
-import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.yandex.practicum.interactionapi.client.decoder.FeignErrorDecoder;
 
 @Configuration
 public class FeignConfig {
+
     @Bean
-    public ErrorDecoder errorDecoder() {
-        return new FeignErrorDecoder();
+    public Feign.Builder feignBuilder() {
+        return Feign.builder().errorDecoder(new FeignErrorDecoder());
     }
 
     @Bean

@@ -19,7 +19,6 @@ import java.util.UUID;
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
-
     @GetMapping
     public ShoppingCartDto findShoppingCartByUser(@RequestParam String username) {
         log.info("Получение актуальной корзины для авторизованного пользователя. {}", username);
