@@ -1,5 +1,6 @@
 package ru.yandex.practicum.warehouse.service;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -154,6 +155,10 @@ public class WarehouseServiceImpl implements WarehouseService {
         } else {
             quantityState = QuantityState.MANY;
         }
-        shoppingStoreClient.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
+        try {
+            shoppingStoreClient.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
+        } catch (FeignException e) {
+            log.error("Feign client error");
+        }
     }
 }
