@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS warehouse (
     height DOUBLE PRECISION,
     depth DOUBLE PRECISION,
     weight DOUBLE PRECISION,
-    quantity BIGINT quantity BIGINT NOT NULL DEFAULT 0
+    quantity BIGINT NOT NULL DEFAULT 0
 );
