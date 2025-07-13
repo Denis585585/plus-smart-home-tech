@@ -9,7 +9,7 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "warehouse_product")
+@Table(name = "warehouse")
 @Getter
 @Setter
 @Builder
