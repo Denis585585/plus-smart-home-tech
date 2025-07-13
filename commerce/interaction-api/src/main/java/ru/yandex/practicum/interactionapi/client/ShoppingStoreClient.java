@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.interactionapi.dto.PageableDto;
+import ru.yandex.practicum.interactionapi.dto.Pageable;
 import ru.yandex.practicum.interactionapi.dto.ProductDto;
 import ru.yandex.practicum.interactionapi.enums.ProductCategory;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
@@ -18,7 +18,7 @@ public interface ShoppingStoreClient {
     ProductDto findProductById(@PathVariable @NotNull UUID productId);
 
     @GetMapping
-    List<ProductDto> findProductsByCategory(@RequestParam ProductCategory productCategory, @Valid PageableDto pageableDto);
+    List<ProductDto> findProductsByCategory(@RequestParam ProductCategory productCategory, @Valid Pageable pageable);
 
     @PutMapping
     ProductDto createProduct(@RequestBody @Valid ProductDto productDto);
