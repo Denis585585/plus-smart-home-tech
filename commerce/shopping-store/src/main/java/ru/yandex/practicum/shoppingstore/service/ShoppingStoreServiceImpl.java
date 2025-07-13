@@ -103,13 +103,13 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
                     return new ProductNotFoundException(errorMessage);
                 });
         product.setProductState(ProductState.DEACTIVATE);
-
+        shoppingStoreRepository.save(product);
         log.info("Товар деактивирован c id=: {}", productId);
         return true;
     }
 
     @Override
-    public boolean setProductQuantityState(SetProductQuantityStateRequest request) {
+    public ProductDto setProductQuantityState(SetProductQuantityStateRequest request) {
         log.info("Изменение статуса товара c id = : {}, Новый статус: {}",
                 request.getProductId(),
                 request.getQuantityState());
@@ -124,6 +124,6 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
                 product.getProductId(),
                 product.getQuantityState());
 
-        return true;
+        return productMapper.productToProductDto(product);
     }
 }

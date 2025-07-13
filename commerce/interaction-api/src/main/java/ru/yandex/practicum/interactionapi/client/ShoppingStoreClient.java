@@ -31,5 +31,5 @@ public interface ShoppingStoreClient {
     Boolean deleteProduct(@RequestBody @NotNull UUID productId);
 
     @PostMapping("/quantityState")
-    Boolean setProductQuantityState(@Valid SetProductQuantityStateRequest setProductQuantityStateRequest);
+    ProductDto setProductQuantityState(@Valid SetProductQuantityStateRequest setProductQuantityStateRequest);
 }

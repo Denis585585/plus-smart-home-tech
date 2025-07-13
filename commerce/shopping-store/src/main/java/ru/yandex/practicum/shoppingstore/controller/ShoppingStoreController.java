@@ -52,7 +52,7 @@ public class ShoppingStoreController {
     }
 
     @PostMapping("/quantityState")
-    public Boolean setProductQuantityState(@Valid SetProductQuantityStateRequest setProductQuantityStateRequest) {
+    public ProductDto setProductQuantityState(@Valid SetProductQuantityStateRequest setProductQuantityStateRequest) {
         log.info("Установка статуса по товару {}", setProductQuantityStateRequest);
         return shoppingStoreService.setProductQuantityState(setProductQuantityStateRequest);
     }
