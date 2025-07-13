@@ -10,7 +10,7 @@ import ru.yandex.practicum.interactionapi.request.ChangeProductQuantityRequest;
 import java.util.Map;
 import java.util.UUID;
 
-@Component
+
 @FeignClient(name = "shopping-cart", path = "/api/v1/shopping-cart", configuration = FeignConfig.class)
 public interface ShoppingCartClient {
     @GetMapping
