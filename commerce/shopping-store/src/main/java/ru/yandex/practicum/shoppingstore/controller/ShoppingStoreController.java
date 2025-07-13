@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.interactionapi.dto.PageableDto;
 import ru.yandex.practicum.interactionapi.dto.ProductDto;
 import ru.yandex.practicum.interactionapi.enums.ProductCategory;
-import ru.yandex.practicum.interactionapi.request.SetProductQuantityStateRequest;
+import ru.yandex.practicum.interactionapi.enums.QuantityState;
 import ru.yandex.practicum.shoppingstore.service.ShoppingStoreService;
 
 import java.util.UUID;
@@ -52,8 +52,8 @@ public class ShoppingStoreController {
     }
 
     @PostMapping("/quantityState")
-    public ProductDto setProductQuantityState(@Valid SetProductQuantityStateRequest setProductQuantityStateRequest) {
-        log.info("Установка статуса по товару {}", setProductQuantityStateRequest);
-        return shoppingStoreService.setProductQuantityState(setProductQuantityStateRequest);
+    public ProductDto setProductQuantityState(UUID productId, QuantityState quantityState) {
+        log.info("quantityState request: productId {}, quantityState {}", productId, quantityState);
+        return shoppingStoreService.setProductQuantityState(productId, quantityState);
     }
 }

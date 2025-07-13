@@ -11,7 +11,7 @@ import ru.yandex.practicum.interactionapi.dto.PageableDto;
 import ru.yandex.practicum.interactionapi.dto.ProductDto;
 import ru.yandex.practicum.interactionapi.enums.ProductCategory;
 import ru.yandex.practicum.interactionapi.enums.ProductState;
-import ru.yandex.practicum.interactionapi.request.SetProductQuantityStateRequest;
+import ru.yandex.practicum.interactionapi.enums.QuantityState;
 import ru.yandex.practicum.shoppingstore.exception.ProductNotFoundException;
 import ru.yandex.practicum.shoppingstore.mapper.ProductMapper;
 import ru.yandex.practicum.shoppingstore.model.Product;
@@ -108,21 +108,15 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
     }
 
     @Override
-    public ProductDto setProductQuantityState(SetProductQuantityStateRequest request) {
-        log.info("Изменение статуса товара c id = : {}, Новый статус: {}",
-                request.getProductId(),
-                request.getQuantityState());
-
-        Product product = shoppingStoreRepository.findByProductId(request.getProductId())
+    public ProductDto setProductQuantityState(UUID productId, QuantityState quantityState) {
+        Product product = shoppingStoreRepository.findById(productId)
                 .orElseThrow(
-                        () -> new ProductNotFoundException(String.format("Товар c id =: %s в БД не найден", request.getProductId()))
-                );
-        product.setQuantityState(request.getQuantityState());
+                        () -> new ProductNotFoundException(String.format("Товар c id =: %s в БД не найден", productId)));
+        product.setQuantityState(quantityState);
 
         log.info("Статус товара обновлён: id = {}, Статус: {}",
                 product.getProductId(),
                 product.getQuantityState());
-
-        return productMapper.productToProductDto(product);
+        return productMapper.productToProductDto(shoppingStoreRepository.save(product));
     }
 }

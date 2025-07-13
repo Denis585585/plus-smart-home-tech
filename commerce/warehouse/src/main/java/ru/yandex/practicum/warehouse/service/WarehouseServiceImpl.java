@@ -12,7 +12,6 @@ import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
-import ru.yandex.practicum.interactionapi.request.SetProductQuantityStateRequest;
 import ru.yandex.practicum.warehouse.exception.NoSpecifiedProductInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductInShoppingCartLowQuantityInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductNotFoundInWarehouseException;
@@ -63,11 +62,10 @@ public class WarehouseServiceImpl implements WarehouseService {
         Warehouse warehouse = warehouseRepository.findById(addProductToWarehouseRequest.getProductId())
                 .orElseThrow(() -> {
                     String errorMessage = "Товар c id =" + addProductToWarehouseRequest.getProductId() + " не найден на складе";
-                    log.error(errorMessage);
                     return new NoSpecifiedProductInWarehouseException(errorMessage);
                 });
 
-        long oldQuantity = warehouse.getQuantity();
+        Long oldQuantity = warehouse.getQuantity();
         warehouse.setQuantity(oldQuantity + addProductToWarehouseRequest.getQuantity());
         warehouseRepository.save(warehouse);
 
@@ -145,21 +143,17 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     private void syncProductStoreStatus(Warehouse warehouseProduct) {
-        UUID productId = warehouseProduct.getProductId();
         QuantityState quantityState;
-        SetProductQuantityStateRequest setProductQuantityStateRequest = new SetProductQuantityStateRequest();
         Long quantity = warehouseProduct.getQuantity();
         if (quantity == 0) {
             quantityState = QuantityState.ENDED;
         } else if (quantity < 10) {
-            quantityState = QuantityState.ENOUGH;
-        } else if (quantity < 100) {
             quantityState = QuantityState.FEW;
+        } else if (quantity < 100) {
+            quantityState = QuantityState.ENOUGH;
         } else {
             quantityState = QuantityState.MANY;
         }
-        setProductQuantityStateRequest.setProductId(productId);
-        setProductQuantityStateRequest.setQuantityState(quantityState);
-        shoppingStoreClient.setProductQuantityState(setProductQuantityStateRequest);
+        shoppingStoreClient.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
     }
 }
