@@ -1,9 +1,7 @@
 package ru.yandex.practicum.shoppingstore.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.yandex.practicum.interactionapi.enums.ProductCategory;
 import ru.yandex.practicum.interactionapi.enums.ProductState;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
@@ -16,6 +14,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
