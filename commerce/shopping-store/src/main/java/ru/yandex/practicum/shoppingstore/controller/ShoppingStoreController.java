@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.interactionapi.dto.PageableDto;
 import ru.yandex.practicum.interactionapi.dto.ProductDto;
@@ -11,7 +12,6 @@ import ru.yandex.practicum.interactionapi.enums.ProductCategory;
 import ru.yandex.practicum.interactionapi.request.SetProductQuantityStateRequest;
 import ru.yandex.practicum.shoppingstore.service.ShoppingStoreService;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -28,10 +28,9 @@ public class ShoppingStoreController {
     }
 
     @GetMapping
-    public List<ProductDto> findProductsByCategory(@RequestParam ProductCategory productCategory,
-                                                   @Valid PageableDto pageableDto) {
+    public Page<ProductDto> getProductsByCategory(@RequestParam ProductCategory category, PageableDto pageable) {
         log.info("Получение списка товаров по типу в пагинированном виде.");
-        return shoppingStoreService.findProductsByCategory(productCategory, pageableDto);
+        return shoppingStoreService.findProductsByCategory(category, pageable);
     }
 
     @PutMapping

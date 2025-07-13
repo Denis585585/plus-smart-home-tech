@@ -11,6 +11,7 @@ import ru.yandex.practicum.interactionapi.enums.ProductCategory;
 import ru.yandex.practicum.interactionapi.enums.ProductState;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -32,5 +33,5 @@ public class ProductDto {
     private Integer rating;
     private ProductCategory productCategory;
     @NotNull
-    private Double price;
+    private BigDecimal price;
 }

@@ -1,6 +1,5 @@
 package ru.yandex.practicum.interactionapi.dto;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,8 +14,6 @@ public class PageableDto {
     @Min(0)
     private Integer page;
     @Min(1)
-    @Max(100)
     private Integer size;
-
     private List<String> sort;
 }
