@@ -93,7 +93,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
     }
 
     @Override
-    public boolean deleteProduct(UUID productId) {
+    public void deleteProduct(UUID productId) {
         log.info("Запрос на удаление товара с id = : {}", productId);
 
         Product product = shoppingStoreRepository.findByProductId(productId)
@@ -105,7 +105,6 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
         product.setProductState(ProductState.DEACTIVATE);
         shoppingStoreRepository.save(product);
         log.info("Товар деактивирован c id=: {}", productId);
-        return true;
     }
 
     @Override

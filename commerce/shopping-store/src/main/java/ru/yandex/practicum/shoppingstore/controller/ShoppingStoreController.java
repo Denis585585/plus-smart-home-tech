@@ -28,7 +28,7 @@ public class ShoppingStoreController {
     }
 
     @GetMapping
-    public Page<ProductDto> getProductsByCategory(@RequestParam ProductCategory category, @Valid PageableDto pageable) {
+    public Page<ProductDto> getProductsByCategory(@RequestParam @NotNull ProductCategory category, @Valid PageableDto pageable) {
         log.info("Получение списка товаров по типу в пагинированном виде.");
         return shoppingStoreService.findProductsByCategory(category, pageable);
     }
@@ -46,9 +46,9 @@ public class ShoppingStoreController {
     }
 
     @PostMapping("/removeProductFromStore")
-    public Boolean deleteProduct(@RequestBody @NotNull UUID productId) {
+    public void deleteProduct(@RequestBody @NotNull UUID productId) {
         log.info("Удаление товара из ассортимента магазина. Функция для менеджерского состава. {}", productId);
-        return shoppingStoreService.deleteProduct(productId);
+        shoppingStoreService.deleteProduct(productId);
     }
 
     @PostMapping("/quantityState")
