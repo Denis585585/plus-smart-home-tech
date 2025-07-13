@@ -11,7 +11,7 @@ import ru.yandex.practicum.interactionapi.exception.WarehouseServerUnavailableEx
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
 
-@Component
+
 public class WarehouseClientFallback implements WarehouseClient {
 
     @Override
