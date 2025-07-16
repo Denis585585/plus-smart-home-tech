@@ -26,7 +26,9 @@ feign:
 
 eureka:
   instance:
-    instance-id: ${spring.application.name}:${random.value}
+    instance-id: "${spring.application.name}:${random.value}"
+    preferIpAddress: true
+    hostname: localhost
   client:
     healthcheck:
       enabled: true
@@ -42,5 +44,3 @@ logging:
     feign: DEBUG
     org.springframework.cloud.client.loadbalancer: DEBUG
 
-preferIpAddress: true
-hostname: localhost
