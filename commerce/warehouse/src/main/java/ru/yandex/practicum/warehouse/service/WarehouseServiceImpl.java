@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.yandex.practicum.interactionapi.client.ShoppingStoreClient;
 import ru.yandex.practicum.interactionapi.dto.AddressDto;
 import ru.yandex.practicum.interactionapi.dto.BookedProductsDto;
 import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
-//import ru.yandex.practicum.shoppingstore.service.ShoppingStoreService;
+import ru.yandex.practicum.shoppingstore.service.ShoppingStoreService;
 import ru.yandex.practicum.warehouse.exception.NoSpecifiedProductInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductInShoppingCartLowQuantityInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductNotFoundInWarehouseException;
@@ -33,11 +32,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
 
-    private final ShoppingStoreClient shoppingStoreClient;
-
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper warehouseMapper;
-    //private final ShoppingStoreService shoppingStoreService;
+    private final ShoppingStoreService shoppingStoreService;
 
     @Override
     public void addNewProductToWarehouse(NewProductInWarehouseRequest request) {
@@ -156,6 +153,6 @@ public class WarehouseServiceImpl implements WarehouseService {
         } else {
             quantityState = QuantityState.MANY;
         }
-        shoppingStoreClient.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
+        shoppingStoreService.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
     }
 }
