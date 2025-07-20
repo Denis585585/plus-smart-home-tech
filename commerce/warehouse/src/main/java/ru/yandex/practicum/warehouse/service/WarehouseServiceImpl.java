@@ -1,10 +1,8 @@
 package ru.yandex.practicum.warehouse.service;
 
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.interactionapi.client.ShoppingStoreClient;
 import ru.yandex.practicum.interactionapi.dto.AddressDto;
@@ -13,6 +11,7 @@ import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.interactionapi.enums.QuantityState;
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
+//import ru.yandex.practicum.shoppingstore.service.ShoppingStoreService;
 import ru.yandex.practicum.warehouse.exception.NoSpecifiedProductInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductInShoppingCartLowQuantityInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductNotFoundInWarehouseException;
@@ -32,11 +31,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(isolation = Isolation.READ_COMMITTED)
 public class WarehouseServiceImpl implements WarehouseService {
+
+    private final ShoppingStoreClient shoppingStoreClient;
+
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper warehouseMapper;
-    private final ShoppingStoreClient shoppingStoreClient;
+    //private final ShoppingStoreService shoppingStoreService;
 
     @Override
     public void addNewProductToWarehouse(NewProductInWarehouseRequest request) {
@@ -101,7 +102,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         products.forEach((key, value) -> {
             long availableQuantity = warehouseProducts.get(key).getQuantity();
             if (availableQuantity < value) {
-                String errorMessage = String.format("Недостаточно товара %s на складе (требуется: %d, доступно: %d)",
+                String errorMessage = String.format("Недостаточно товара %shoppingStoreService на складе (требуется: %d, доступно: %d)",
                         key, value, availableQuantity);
                 log.error(errorMessage);
                 throw new ProductInShoppingCartLowQuantityInWarehouseException(errorMessage);
@@ -155,10 +156,6 @@ public class WarehouseServiceImpl implements WarehouseService {
         } else {
             quantityState = QuantityState.MANY;
         }
-        try {
-            shoppingStoreClient.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
-        } catch (FeignException e) {
-            log.error("Feign client error");
-        }
+        shoppingStoreClient.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
     }
 }

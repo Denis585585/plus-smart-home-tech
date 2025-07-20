@@ -61,7 +61,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=store
       - POSTGRES_USER=store
-      - POSTGRES_DB=store-db
+      - POSTGRES_DB=store
 
   cart-db:
     image: postgres:16.1
@@ -73,7 +73,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=cart
       - POSTGRES_USER=cart
-      - POSTGRES_DB=cart-db
+      - POSTGRES_DB=cart
 
   warehouse-db:
     image: postgres:16.1
@@ -85,4 +85,4 @@ services:
     environment:
       - POSTGRES_PASSWORD=warehouse
       - POSTGRES_USER=warehouse
-      - POSTGRES_DB=warehouse-db
+      - POSTGRES_DB=warehouse

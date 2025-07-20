@@ -117,6 +117,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
         log.info("Статус товара обновлён: id = {}, Статус: {}",
                 product.getProductId(),
                 product.getQuantityState());
+
         return productMapper.productToProductDto(shoppingStoreRepository.save(product));
     }
 }

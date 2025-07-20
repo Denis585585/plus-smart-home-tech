@@ -52,7 +52,7 @@ public class ShoppingStoreController {
     }
 
     @PostMapping("/quantityState")
-    public ProductDto setProductQuantityState(UUID productId, QuantityState quantityState) {
+    public ProductDto setProductQuantityState(@RequestParam UUID productId, @RequestParam QuantityState quantityState) {
         log.info("quantityState request: productId {}, quantityState {}", productId, quantityState);
         return shoppingStoreService.setProductQuantityState(productId, quantityState);
     }

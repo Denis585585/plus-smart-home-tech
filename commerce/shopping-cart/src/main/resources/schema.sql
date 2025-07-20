@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS shopping_cart (
 
 CREATE TABLE IF NOT EXISTS shopping_cart_items (
     product_id UUID NOT NULL,
-    quantity INTEGER,
+    quantity BIGINT,
     cart_id UUID REFERENCES shopping_cart (shopping_cart_id) ON DELETE CASCADE
 );

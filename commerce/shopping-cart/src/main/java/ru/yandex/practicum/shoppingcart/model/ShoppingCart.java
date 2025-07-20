@@ -18,7 +18,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID shoppingCartId;
     private String username;
-    private boolean active;
+    private Boolean active;
     @ElementCollection
     @CollectionTable(name = "shopping_cart_items", joinColumns = @JoinColumn(name = "cart_id"))
     @MapKeyColumn(name = "product_id")
