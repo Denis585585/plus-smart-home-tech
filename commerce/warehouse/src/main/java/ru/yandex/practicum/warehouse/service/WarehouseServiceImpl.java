@@ -7,10 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.interactionapi.dto.AddressDto;
 import ru.yandex.practicum.interactionapi.dto.BookedProductsDto;
 import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
-//import ru.yandex.practicum.interactionapi.enums.QuantityState;
 import ru.yandex.practicum.interactionapi.request.AddProductToWarehouseRequest;
 import ru.yandex.practicum.interactionapi.request.NewProductInWarehouseRequest;
-//import ru.yandex.practicum.shoppingstore.service.ShoppingStoreService;
 import ru.yandex.practicum.warehouse.exception.NoSpecifiedProductInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductInShoppingCartLowQuantityInWarehouseException;
 import ru.yandex.practicum.warehouse.exception.ProductNotFoundInWarehouseException;
@@ -34,7 +32,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper warehouseMapper;
-    //private final ShoppingStoreService shoppingStoreService;
 
     @Override
     public void addNewProductToWarehouse(NewProductInWarehouseRequest request) {
@@ -72,8 +69,6 @@ public class WarehouseServiceImpl implements WarehouseService {
                 warehouse.getProductId(),
                 oldQuantity,
                 warehouse.getQuantity());
-
-        //syncProductStoreStatus(warehouse);
     }
 
     public BookedProductsDto checkProductQuantityForCart(ShoppingCartDto shoppingCartDto) {
@@ -140,19 +135,4 @@ public class WarehouseServiceImpl implements WarehouseService {
                         .sum())
                 .build();
     }
-
-    /*private void syncProductStoreStatus(Warehouse warehouseProduct) {
-        QuantityState quantityState;
-        Long quantity = warehouseProduct.getQuantity();
-        if (quantity == 0) {
-            quantityState = QuantityState.ENDED;
-        } else if (quantity < 10) {
-            quantityState = QuantityState.FEW;
-        } else if (quantity < 100) {
-            quantityState = QuantityState.ENOUGH;
-        } else {
-            quantityState = QuantityState.MANY;
-        }
-        shoppingStoreService.setProductQuantityState(warehouseProduct.getProductId(), quantityState);
-    }*/
 }

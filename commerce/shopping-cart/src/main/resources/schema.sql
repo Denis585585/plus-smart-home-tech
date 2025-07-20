@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS shopping_cart, shopping_cart_items;
 
 CREATE TABLE IF NOT EXISTS shopping_cart (
-    shopping_cart_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    shopping_cart_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(255) NOT NULL,
+    UNIQUE(username),
     active BOOLEAN NOT NULL
 );
 

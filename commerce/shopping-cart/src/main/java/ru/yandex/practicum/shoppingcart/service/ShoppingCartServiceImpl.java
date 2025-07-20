@@ -33,7 +33,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         log.info("Получение корзины покупок для пользователя: {}", username);
         checkUsername(username);
 
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUsername(username);
+        ShoppingCart shoppingCart = getCartByUsername(username);
 
         if (shoppingCart == null) {
             log.warn("Корзина покупок не найдена для пользователя: {}", username);
@@ -68,7 +68,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         log.info("Деактивация корзины пользователя: {}", username);
 
         checkUsername(username);
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUsername(username);
+        ShoppingCart shoppingCart = getCartByUsername(username);
         if (shoppingCart != null) {
             shoppingCart.setActive(false);
             shoppingCartRepository.save(shoppingCart);
@@ -79,15 +79,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto deleteProductsFromShoppingCart(String username, List<UUID> products) {
-        log.info("Удаление товаров из корзины. Пользователь: {}, Кол-во удаляемых товаров: {}", username, products.size());
-
+    public ShoppingCartDto deleteProductsFromShoppingCart(String username, List<UUID> request) {
+        log.info("Удаление товаров из корзины. Пользователь: {}, Кол-во удаляемых товаров: {}", username, request.size());
         checkUsername(username);
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUsername(username);
+        ShoppingCart shoppingCart = getCartByUsername(username);
         if (shoppingCart == null) {
             throw new NoProductsInShoppingCartException("У пользователя " + username + " нет корзины покупок.");
         }
-        products.forEach((productId) -> shoppingCart.getProducts().remove(productId));
+        request.forEach((productId) -> shoppingCart.getProducts().remove(productId));
         ShoppingCart updatedCart = shoppingCartRepository.save(shoppingCart);
         log.info("Товары успешно удалены из корзины. id корзины: {}, Осталось товаров: {}",
                 updatedCart.getShoppingCartId(),
@@ -104,12 +103,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 requestDto.getNewQuantity());
         checkUsername(username);
 
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUsername(username);
-        shoppingCart.getProducts().entrySet().stream()
-                .filter(entry -> entry.getKey().equals(requestDto.getProductId()))
-                .peek(entry -> entry.setValue(requestDto.getNewQuantity()))
-                .findAny()
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUsername(username)
                 .orElseThrow(() -> new NoProductsInShoppingCartException("У пользователя " + username + " нет корзины покупок."));
+        if (!shoppingCart.getProducts().containsKey(requestDto.getProductId())) {
+            throw new NoProductsInShoppingCartException("Товар " + requestDto.getProductId() + " не найден в корзине пользователя " + username);
+        }
+
+        shoppingCart.getProducts().put(requestDto.getProductId(), requestDto.getNewQuantity());
 
         ShoppingCart savedCart = shoppingCartRepository.save(shoppingCart);
         log.info("Количество товара успешно изменено. id корзины: {}", savedCart.getShoppingCartId());
@@ -121,7 +121,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public BookedProductsDto bookingCartProducts(String username) {
         log.info("Начало бронирования товаров для пользователя: {}", username);
         checkUsername(username);
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUsername(username);
+        ShoppingCart shoppingCart = getCartByUsername(username);
         if (shoppingCart == null || shoppingCart.getProducts().isEmpty()) {
             String errorMessage = "Невозможно забронировать товары: корзина пуста или не существует";
             log.error(errorMessage);
@@ -139,5 +139,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (username == null || username.isEmpty()) {
             throw new NotAuthorizedUserException("Имя пользователя должно быть заполнено.");
         }
+    }
+
+    private ShoppingCart getCartByUsername(String username) {
+        return shoppingCartRepository.findByUsername(username)
+                .orElseThrow(() -> new NotAuthorizedUserException("Пользователь " + username +
+                        " не авторизован в системе и не имеет корзины"));
     }
 }
