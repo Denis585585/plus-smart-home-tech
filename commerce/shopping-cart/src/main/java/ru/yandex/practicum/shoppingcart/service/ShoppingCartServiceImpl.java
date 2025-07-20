@@ -14,7 +14,6 @@ import ru.yandex.practicum.shoppingcart.mapper.ShoppingCartMapper;
 import ru.yandex.practicum.shoppingcart.model.ShoppingCart;
 import ru.yandex.practicum.shoppingcart.repository.ShoppingCartRepository;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -79,15 +78,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto deleteProductsFromShoppingCart(String username, List<UUID> products) {
-        log.info("Удаление товаров из корзины. Пользователь: {}, Кол-во удаляемых товаров: {}", username, products.size());
-
+    public ShoppingCartDto deleteProductsFromShoppingCart(String username, Map<UUID, Long> request) {
+        log.info("Удаление товаров из корзины. Пользователь: {}, Кол-во удаляемых товаров: {}", username, request.size());
         checkUsername(username);
         ShoppingCart shoppingCart = shoppingCartRepository.findByUsername(username);
         if (shoppingCart == null) {
             throw new NoProductsInShoppingCartException("У пользователя " + username + " нет корзины покупок.");
         }
-        products.forEach((productId) -> shoppingCart.getProducts().remove(productId));
+        shoppingCart.setProducts(request);
         ShoppingCart updatedCart = shoppingCartRepository.save(shoppingCart);
         log.info("Товары успешно удалены из корзины. id корзины: {}, Осталось товаров: {}",
                 updatedCart.getShoppingCartId(),
