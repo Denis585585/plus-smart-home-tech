@@ -2,12 +2,11 @@ package ru.yandex.practicum.interactionapi.client;
 
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.interactionapi.dto.ShoppingCartDto;
 import ru.yandex.practicum.interactionapi.request.ChangeProductQuantityRequest;
 
-import java.util.Map;
+import java.util.List;import java.util.Map;
 import java.util.UUID;
 
 
@@ -23,7 +22,7 @@ public interface ShoppingCartClient {
     void deactivateShoppingCartByUser(@RequestParam String username);
 
     @PostMapping("/remove")
-    ShoppingCartDto deleteProductsFromShoppingCart(@RequestParam String username, @RequestBody Map<UUID, Long> request);
+    ShoppingCartDto deleteProductsFromShoppingCart(@RequestParam String username, @RequestBody List<UUID> request);
 
     @PostMapping("/change-quantity")
     ShoppingCartDto updateProductQuantity(@RequestParam String username,
